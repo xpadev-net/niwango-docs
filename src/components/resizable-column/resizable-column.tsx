@@ -1,13 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Styles from "./resizable-column.module.scss";
+import { NiwangoEditor } from "@/components/editor";
+import { Render } from "@/components/render/render.tsx";
 
 type props = {
-  left: ReactNode;
-  right: ReactNode;
   className?: string;
 };
 
-const ResizableColumn = ({ left, right, className }: props) => {
+const ResizableColumn = ({ className }: props) => {
   const [asideWidth, setAsideWidth] = useState<number>(400);
   const [isDrugging, setIsDrugging] = useState<boolean>(false);
   useEffect(() => {
@@ -35,12 +35,17 @@ const ResizableColumn = ({ left, right, className }: props) => {
   }, [isDrugging]);
   return (
     <div className={`${className} ${Styles.wrapper}`}>
-      <section className={Styles.section}>{left}</section>
+      <section className={Styles.section}>
+        <NiwangoEditor className={Styles.editor} />
+      </section>
       <div
         className={Styles.grubber}
         onMouseDown={() => setIsDrugging(true)}
       ></div>
-      <aside style={{ width: `${asideWidth}px` }}>{right}</aside>
+      <aside className={Styles.aside} style={{ width: `${asideWidth}px` }}>
+        <Render width={asideWidth} />
+        <section className={Styles.meta}></section>
+      </aside>
     </div>
   );
 };

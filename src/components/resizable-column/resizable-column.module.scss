@@ -12,4 +12,11 @@
     cursor: col-resize;
     background: gray;
   }
+  .aside {
+    display: flex;
+    flex-direction: column;
+    .meta {
+      flex: 1;
+    }
+  }
 }
