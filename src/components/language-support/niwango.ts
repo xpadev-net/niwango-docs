@@ -24,7 +24,13 @@ const setupNiwango = (monaco: Monaco) => {
   monaco.languages.register({ id: niwangoLanguageId });
   monaco.editor.defineTheme(niwangoLanguageId, {
     base: "vs-dark",
-    rules: [{ token: "tm-command", foreground: "#ffb700", fontStyle: "bold" }],
+    rules: [
+      { token: "tm-command", foreground: "#ffb700", fontStyle: "bold" },
+      { token: "keyword", foreground: "#F07178" },
+      { token: "boolean", foreground: "#E6B673" },
+      { token: "number", foreground: "#0095ff" },
+      { token: "arg-identifier", foreground: "#adadad" },
+    ],
     inherit: true,
     colors: {},
   });
@@ -32,8 +38,11 @@ const setupNiwango = (monaco: Monaco) => {
     keywords: keywords.map((val) => val.label),
     tokenizer: {
       root: [
+        [/\w+:/, "arg-identifier"],
+        [/true|false/, "boolean"],
+        [/(0x[0-9a-f]+|[0-9]+(?:\.[0-9]+)?)/, "number"],
         [
-          /@?[a-zA-Z][\w$]*/,
+          /[\w$@]+/,
           {
             cases: {
               "@keywords": "keyword",
@@ -45,7 +54,7 @@ const setupNiwango = (monaco: Monaco) => {
           /^\[tm([0-9]+(?:\.[0-9]+)?|[0-9]+:[0-5]?[0-9](?:\.[0-9]+)?)]$/,
           "tm-command",
         ],
-        [/".*?"/, "string"],
+        [/(".*?"|'.*?')/, "string"],
         [/#.*/, "comment"],
       ],
     },
@@ -62,7 +71,7 @@ const setupNiwango = (monaco: Monaco) => {
       return { suggestions: keywords.map((val) => ({ ...val, range })) };
     },
   });
-  const config = {
+  const config: languages.LanguageConfiguration = {
     surroundingPairs: [
       { open: "[", close: "]" },
       { open: "(", close: ")" },
@@ -74,6 +83,11 @@ const setupNiwango = (monaco: Monaco) => {
       { open: "(", close: ")" },
       { open: "'", close: "'", notIn: ["string", "comment"] },
       { open: '"', close: '"', notIn: ["string", "comment"] },
+    ],
+    brackets: [
+      ["{", "}"],
+      ["(", ")"],
+      ["[", "]"],
     ],
   };
   monaco.languages.setLanguageConfiguration(niwangoLanguageId, config);
