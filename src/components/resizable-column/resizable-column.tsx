@@ -4,9 +4,10 @@ import Styles from "./resizable-column.module.scss";
 type props = {
   left: ReactNode;
   right: ReactNode;
+  className?: string;
 };
 
-const ResizableColumn = ({ left, right }: props) => {
+const ResizableColumn = ({ left, right, className }: props) => {
   const [asideWidth, setAsideWidth] = useState<number>(400);
   const [isDrugging, setIsDrugging] = useState<boolean>(false);
   useEffect(() => {
@@ -33,7 +34,7 @@ const ResizableColumn = ({ left, right }: props) => {
     };
   }, [isDrugging]);
   return (
-    <div className={Styles.wrapper}>
+    <div className={`${className} ${Styles.wrapper}`}>
       <section className={Styles.section}>{left}</section>
       <div
         className={Styles.grubber}

@@ -40,7 +40,7 @@ const setupNiwango = (monaco: Monaco) => {
       root: [
         [/\w+:/, "arg-identifier"],
         [/true|false/, "boolean"],
-        [/(0x[0-9a-f]+|[0-9]+(?:\.[0-9]+)?)/, "number"],
+        [/(0x[0-9a-fA-F]+|[0-9]+(?:\.[0-9]+)?)/, "number"],
         [
           /[\w$@]+/,
           {

@@ -6,6 +6,7 @@ import Styles from "./App.module.scss";
 function App() {
   return (
     <ResizableColumn
+      className={Styles.wrapper}
       left={<NiwangoEditor className={Styles.editor} />}
       right={
         <aside>
