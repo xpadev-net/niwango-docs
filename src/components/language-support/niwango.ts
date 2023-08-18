@@ -1,6 +1,5 @@
 import {languages} from "monaco-editor";
-import {documents} from "@/docs/documents";
-import CompletionItemKind = languages.CompletionItemKind;
+import {documents} from "@/docs/documents.ts";
 import {IDocumentItem} from "@/@types/documents";
 import {Monaco} from "@monaco-editor/react";
 
@@ -12,7 +11,7 @@ documents.map((_item)=>{
   return {
     label: _item.name,
     insertText: _item.name,
-    kind: CompletionItemKind.Keyword,
+    kind: languages.CompletionItemKind.Keyword,
     detail: "function",
     documentation: item.description
   }
