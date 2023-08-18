@@ -22,6 +22,12 @@ const keywords: Omit<languages.CompletionItem, "range">[] = documents.map(
 
 const setupNiwango = (monaco: Monaco) => {
   monaco.languages.register({ id: niwangoLanguageId });
+  monaco.editor.defineTheme(niwangoLanguageId, {
+    base: "vs-dark",
+    rules: [{ token: "tm-command", foreground: "#ffb700", fontStyle: "bold" }],
+    inherit: true,
+    colors: {},
+  });
   monaco.languages.setMonarchTokensProvider(niwangoLanguageId, {
     keywords: keywords.map((val) => val.label),
     tokenizer: {
@@ -34,6 +40,10 @@ const setupNiwango = (monaco: Monaco) => {
               "@default": "variable",
             },
           },
+        ],
+        [
+          /^\[tm([0-9]+(?:\.[0-9]+)?|[0-9]+:[0-5]?[0-9](?:\.[0-9]+)?)]$/,
+          "tm-command",
         ],
         [/".*?"/, "string"],
         [/#.*/, "comment"],
