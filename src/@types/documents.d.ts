@@ -5,11 +5,11 @@ export type IDocumentItem = {
   description?: string;
   examples?: string[];
   isAlias?: false;
-}
+};
 export type IDocumentAlias = {
   name: string;
-  alias: string
+  alias: string;
   isAlias: true;
-}
+};
 
 export type IDocument = IDocumentItem | IDocumentAlias;

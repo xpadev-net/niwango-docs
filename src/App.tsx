@@ -1,13 +1,12 @@
-import './App.css'
-import {NiwangoEditor} from "@/components/editor";
+import "./App.css";
+import { NiwangoEditor } from "@/components/editor";
 
 function App() {
-
   return (
     <>
-      <NiwangoEditor/>
+      <NiwangoEditor />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
