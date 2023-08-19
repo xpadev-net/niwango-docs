@@ -9,11 +9,11 @@ dependencies:
     specifier: ^4.5.1
     version: 4.5.1(monaco-editor@0.41.0)(react-dom@18.2.0)(react@18.2.0)
   '@xpadev-net/niwango':
-    specifier: 0.0.1-canary.20230818-4
-    version: 0.0.1-canary.20230818-4
+    specifier: 0.0.1-canary.20230819-1
+    version: 0.0.1-canary.20230819-1
   '@xpadev-net/niwango-core':
-    specifier: 0.0.2-canary.20230818-4
-    version: 0.0.2-canary.20230818-4
+    specifier: 0.0.2-canary.20230819-1
+    version: 0.0.2-canary.20230819-1
   jotai:
     specifier: ^2.3.1
     version: 2.3.1(@types/react@18.2.20)(react@18.2.0)
@@ -812,12 +812,12 @@ packages:
       - supports-color
     dev: true
 
-  /@xpadev-net/niwango-core@0.0.2-canary.20230818-4:
-    resolution: {integrity: sha512-kaNXbEd9mpDZ6niuR2jc61F8fMCqGp7dL2zbuI3l0+vmycIBBoGzJh3TOxks6lZOmDEG+Qx75u7Wg8vUvRoOFQ==}
+  /@xpadev-net/niwango-core@0.0.2-canary.20230819-1:
+    resolution: {integrity: sha512-4ATsVDv8UxrVIpvWG9+Z9dvAcagOIbTCCenXkFpnzt60FBizcMJRIwn7m2yOSj46ccSmFlzNbHeQNW3uiEcYKw==}
     dev: false
 
-  /@xpadev-net/niwango@0.0.1-canary.20230818-4:
-    resolution: {integrity: sha512-T+O5S+IPnkV/762hz/n5DSLYfTAyvP1eI3Ltxm78iTgoep2fForKCPpx3L+tScETtqW8QteoQIpGfNeekR5xqQ==}
+  /@xpadev-net/niwango@0.0.1-canary.20230819-1:
+    resolution: {integrity: sha512-e5Qz1wjOxVuKrsx3JHbtiVLtxWXNSk9ncCVbX+oJRfdV+1feM7vLDqI/5SBtzGoYSA5QGrYgNgs/F/W7NHPBsw==}
     dev: false
 
   /acorn-jsx@5.3.2(acorn@8.10.0):
