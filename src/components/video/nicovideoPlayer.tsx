@@ -7,6 +7,8 @@ import {
 } from "react";
 import { PlayerEvent, VideoPlayerMethods } from "@/@types/player";
 
+import Styles from "./video.module.scss";
+
 type props = {
   url: string;
   className?: string;
@@ -124,7 +126,7 @@ export const NicovideoPlayer = forwardRef<VideoPlayerMethods, props>(
         src={`https://embed.nicovideo.jp/watch/${url}?jsapi=1&playerId=1`}
         width={1920}
         height={1080}
-        className={className}
+        className={`${className} ${Styles.iframe}`}
       ></iframe>
     );
   }
