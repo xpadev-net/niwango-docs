@@ -41,7 +41,7 @@ const convertToCommentFormat = (value: string) => {
   }
   result.push({
     message: "/" + tmpArr.join("\n"),
-    vpos: lastVpos * 100,
+    vpos: lastVpos,
     isYourPost: false,
     mail: "invisible",
     fromButton: false,
