@@ -15,7 +15,6 @@ const Controls = () => {
       ) : (
         <PauseFilledIcon onClick={() => videoControls.pause()} />
       )}
-      <button onClick={() => videoControls.seek(10)}>test</button>
       <input
         type="range"
         min={0}
