@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.5.1",
-    "@xpadev-net/niwango": "0.0.1-canary.20230821-6",
-    "@xpadev-net/niwango-core": "0.0.2-canary.20230820-2",
+    "@xpadev-net/niwango": "0.0.1-canary.20230822-2",
+    "@xpadev-net/niwango-core": "0.0.2-canary.20230822-2",
     "jotai": "^2.3.1",
     "monaco-editor": "^0.41.0",
     "react": "^18.2.0",
