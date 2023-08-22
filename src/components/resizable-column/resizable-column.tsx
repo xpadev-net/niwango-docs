@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Styles from "./resizable-column.module.scss";
 import { NiwangoEditor } from "@/components/editor";
 import { Render } from "@/components/render/render.tsx";
+import { Controls } from "@/components/controls/controls.tsx";
 
 type props = {
   className?: string;
@@ -44,6 +45,7 @@ const ResizableColumn = ({ className }: props) => {
       ></div>
       <aside className={Styles.aside} style={{ width: `${asideWidth}px` }}>
         <Render width={asideWidth} />
+        <Controls />
         <section className={Styles.meta}></section>
       </aside>
     </div>

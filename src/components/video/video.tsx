@@ -1,38 +1,19 @@
 import { NicovideoPlayer } from "@/components/video/nicovideoPlayer.tsx";
-import { PlayerEvent, VideoPlayerMethods } from "@/@types/player";
-import { forwardRef } from "react";
 import { YoutubePlayer } from "@/components/video/youtubePlayer.tsx";
 
 type props = {
   url: string;
   className?: string;
-  onEvent: (ev: PlayerEvent) => void;
 };
 
-const Video = forwardRef<VideoPlayerMethods, props>(
-  ({ url, className, onEvent }: props, ref) => {
-    const video = getVideoId(url);
-    if (!video) return <></>;
-    if (video.type === "youtube") {
-      return (
-        <YoutubePlayer
-          ref={ref}
-          className={className}
-          url={video.id}
-          onEvent={onEvent}
-        />
-      );
-    }
-    return (
-      <NicovideoPlayer
-        ref={ref}
-        className={className}
-        url={video.id}
-        onEvent={onEvent}
-      />
-    );
+const Video = ({ url, className }: props) => {
+  const video = getVideoId(url);
+  if (!video) return <></>;
+  if (video.type === "youtube") {
+    return <YoutubePlayer className={className} url={video.id} />;
   }
-);
+  return <NicovideoPlayer className={className} url={video.id} />;
+};
 
 export { Video };
 

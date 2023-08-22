@@ -1,51 +1,71 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { PlayerEvent, VideoPlayerMethods } from "@/@types/player";
-import YouTube from "react-youtube";
+import { useEffect, useRef, useState } from "react";
+import {
+  IsYoutubeReadyAtom,
+  VideoControlsAtom,
+  VideoStateAtom,
+} from "@/atoms/video.ts";
+import { useAtomValue, useSetAtom } from "jotai";
 
 type props = {
   url: string;
   className?: string;
-  onEvent: (ev: PlayerEvent) => void;
 };
 
-export const YoutubePlayer = forwardRef<VideoPlayerMethods, props>(
-  ({ url, onEvent, className }: props, ref) => {
-    const [YTPlayer, setYTPlayer] = useState<YT.Player>();
-    const makeYTPlayer = (e: { target: YT.Player }) => {
-      setYTPlayer(e.target);
-    };
-    useImperativeHandle(ref, () => ({
+export const YoutubePlayer = ({ url, className }: props) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const isYoutubeReady = useAtomValue(IsYoutubeReadyAtom);
+  const setState = useSetAtom(VideoStateAtom);
+  const [currentTime, setCurrentTime] = useState<{
+    paused: boolean;
+    currentTime: number;
+    timestamp: number;
+    duration: number;
+  }>({ paused: true, currentTime: 0, timestamp: 0, duration: 1 });
+  useEffect(() => {
+    if (!wrapperRef.current) return;
+    const player = new YT.Player(wrapperRef.current.id, {
+      videoId: url,
+      events: {
+        onStateChange: (e) => {
+          setCurrentTime({
+            currentTime: Math.floor((player.getCurrentTime() ?? 0) * 1000),
+            duration: Math.floor((player.getDuration() ?? 0) * 1000),
+            paused: e.data !== 1,
+            timestamp: Date.now(),
+          });
+        },
+      },
+    });
+    setVideoControls({
       play: () => {
-        YTPlayer?.playVideo();
+        player.playVideo();
       },
       pause: () => {
-        YTPlayer?.pauseVideo();
+        player.pauseVideo();
       },
       seek: (time: number) => {
-        YTPlayer?.seekTo(time, true);
+        player.seekTo(time / 1000, true);
       },
-      getCurrentTime: () => {
-        return YTPlayer?.getCurrentTime() ?? 0;
-      },
-    }));
+    });
+  }, [url, isYoutubeReady]);
 
-    const opts = {
-      width: "100%",
-      height: "100%",
-      playerVars: {
-        iv_load_policy: 3,
-        modestbranding: 1,
-      },
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const time = Math.floor(
+        currentTime.paused
+          ? currentTime.currentTime
+          : currentTime.currentTime + Date.now() - currentTime.timestamp
+      );
+      setState({
+        ...currentTime,
+        currentTime: time,
+      });
+    }, 10);
+    return () => {
+      clearInterval(interval);
     };
-    return (
-      <YouTube
-        className={className}
-        videoId={url}
-        opts={opts}
-        onReady={makeYTPlayer}
-        onPlay={() => onEvent({ type: "StatusChange", paused: false })}
-        onPause={() => onEvent({ type: "StatusChange", paused: true })}
-      />
-    );
-  }
-);
+  }, [currentTime]);
+  const setVideoControls = useSetAtom(VideoControlsAtom);
+  if (!isYoutubeReady) return <></>;
+  return <div className={className} ref={wrapperRef} id={"__yt_player"} />;
+};
