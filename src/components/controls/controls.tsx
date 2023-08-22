@@ -1,27 +1,22 @@
 import { useAtomValue } from "jotai";
 import { VideoControlsAtom, VideoStateAtom } from "@/atoms/video.ts";
-
-import { PlayArrowFilledIcon } from "@xpadev-net/material-icons/play-arrow-filled";
-import { PauseFilledIcon } from "@xpadev-net/material-icons/pause-filled";
+import { PlayPauseButton } from "@/components/controls/PlayPauseButton.tsx";
+import { SeekBar } from "@/components/controls/SeekBar.tsx";
+import Styles from "./controls.module.scss";
 
 const Controls = () => {
   const state = useAtomValue(VideoStateAtom);
   const videoControls = useAtomValue(VideoControlsAtom);
+
   if (!state || !videoControls) return <></>;
   return (
-    <div>
-      {state.paused ? (
-        <PlayArrowFilledIcon onClick={() => videoControls.play()} />
-      ) : (
-        <PauseFilledIcon onClick={() => videoControls.pause()} />
-      )}
-      <input
-        type="range"
+    <div className={Styles.wrapper}>
+      <PlayPauseButton paused={state.paused} />
+      <SeekBar
         min={0}
         max={state.duration}
         value={state.currentTime}
-        onChange={(e) => videoControls.seek(Number(e.target.value))}
-        step={1}
+        onMouseUp={(val) => videoControls.seek(val)}
       />
     </div>
   );
