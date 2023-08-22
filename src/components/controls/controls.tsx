@@ -11,7 +11,7 @@ const Controls = () => {
   if (!state || !videoControls) return <></>;
   return (
     <div className={Styles.wrapper}>
-      <PlayPauseButton paused={state.paused} />
+      <PlayPauseButton paused={state.paused} className={Styles.button} />
       <SeekBar
         max={state.duration}
         value={state.currentTime}

@@ -20,10 +20,12 @@ const SeekBar = ({ className, onMouseUp, max, value }: props) => {
     const onMouseMove = (e: globalThis.MouseEvent) => {
       if (!isDrugging || !wrapperRef.current) return;
       const rect = wrapperRef.current.getBoundingClientRect();
-      setProgress(
-        Math.max(Math.min(((e.clientX - rect.left) / rect.width) * 100, 100), 0)
+      const value = Math.max(
+        Math.min(((e.clientX - rect.left) / rect.width) * 100, 100),
+        0
       );
-      return ((e.clientX - rect.left) / rect.width) * 100;
+      setProgress(value);
+      return value;
     };
     const onMouseUpHandler = (e: globalThis.MouseEvent) => {
       const progress = onMouseMove(e);
@@ -52,7 +54,11 @@ const SeekBar = ({ className, onMouseUp, max, value }: props) => {
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!wrapperRef.current) return;
     const rect = wrapperRef.current.getBoundingClientRect();
-    setTimeDisplayPos((e.clientX - rect.left) / rect.width);
+    const value = Math.max(
+      Math.min((e.clientX - rect.left) / rect.width, 1),
+      0
+    );
+    setTimeDisplayPos(value);
   };
 
   return (
