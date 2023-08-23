@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, KeyboardEvent, useState, useEffect } from "react";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import { niwangoLanguageId } from "@/components/language-support";
 import { useAtom, useAtomValue } from "jotai";
@@ -7,6 +7,7 @@ import { debounce } from "@/utils/debounce.ts";
 import NiwangoCore from "@xpadev-net/niwango-core";
 import { ScriptValueAtom } from "@/atoms/script.ts";
 import { removeTmAnnotation } from "@/utils/tm.ts";
+import Styles from "./editor.module.scss";
 
 type props = {
   className?: string;
@@ -15,7 +16,11 @@ type props = {
 const NiwangoEditor = ({ className }: props) => {
   const monaco = useMonaco();
   const isMonacoReady = useAtomValue(IsMonacoReadyAtom);
-  const [value, setValue] = useAtom(ScriptValueAtom);
+  const [script, setScript] = useAtom(ScriptValueAtom);
+  const [value, setValue] = useState(script);
+  useEffect(() => {
+    setValue(script);
+  }, [script]);
   const callback = useCallback(
     debounce((value_: string) => {
       if (!monaco) return;
@@ -50,14 +55,27 @@ const NiwangoEditor = ({ className }: props) => {
     setValue(value ?? "");
     callback(value ?? "");
   };
+
+  const keyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.metaKey && e.code === "KeyS") {
+      e.preventDefault();
+      setScript(value);
+    }
+  };
+
   return (
-    <Editor
-      className={className}
-      defaultLanguage={niwangoLanguageId}
-      theme={niwangoLanguageId}
-      value={value}
-      onChange={onChangeHandler}
-    />
+    <div
+      className={`${className} ${Styles.wrapper}`}
+      onKeyDown={keyDownHandler}
+    >
+      <Editor
+        className={Styles.editor}
+        defaultLanguage={niwangoLanguageId}
+        theme={niwangoLanguageId}
+        value={value}
+        onChange={onChangeHandler}
+      />
+    </div>
   );
 };
 
