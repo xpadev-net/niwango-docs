@@ -57,7 +57,7 @@ const NiwangoEditor = ({ className }: props) => {
   };
 
   const keyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.metaKey && e.code === "KeyS") {
+    if ((e.metaKey || e.ctrlKey) && e.code === "KeyS") {
       e.preventDefault();
       setScript(value);
     }
