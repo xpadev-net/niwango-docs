@@ -22,5 +22,9 @@
     &.active {
       display: block;
     }
+    .message {
+      text-align: center;
+      padding: 16px;
+    }
   }
 }

@@ -19,40 +19,38 @@ const NiwangoEditor = ({ className }: props) => {
   const [script, setScript] = useAtom(ScriptValueAtom);
   const setAST = useSetAtom(ASTValueAtom);
   const [value, setValue] = useState(script);
+  const validate = (value_: string) => {
+    if (!monaco) return;
+    const model = monaco.editor.getModels()[0];
+    try {
+      const value = removeTmAnnotation(value_);
+      const ast = NiwangoCore.parse(value, { grammarSource: "sandbox" });
+      setAST(ast);
+      monaco.editor.setModelMarkers(model, "owner", []);
+    } catch (e) {
+      setAST(undefined);
+      if (!(e instanceof NiwangoCore.PeggySyntaxError)) {
+        throw e;
+      }
+      const markers = [
+        {
+          startLineNumber: e.location.start.line,
+          endLineNumber: e.location.end.line,
+          startColumn: e.location.start.column,
+          endColumn: e.location.end.column,
+          message: e.message,
+          severity: monaco.MarkerSeverity.Error,
+        },
+      ];
+      monaco.editor.setModelMarkers(model, "owner", markers);
+      return e;
+    }
+  };
   useEffect(() => {
     setValue(script);
-  }, [script]);
-  const callback = useCallback(
-    debounce((value_: string) => {
-      if (!monaco) return;
-      const model = monaco.editor.getModels()[0];
-      try {
-        const value = removeTmAnnotation(value_);
-        const ast = NiwangoCore.parse(value, { grammarSource: "sandbox" });
-        setAST(ast);
-        monaco.editor.setModelMarkers(model, "owner", []);
-      } catch (e) {
-        if (!(e instanceof NiwangoCore.PeggySyntaxError)) {
-          throw e;
-        }
-        const markers = [
-          {
-            startLineNumber: e.location.start.line,
-            endLineNumber: e.location.end.line,
-            startColumn: e.location.start.column,
-            endColumn: e.location.end.column,
-            message: e.message,
-            severity: monaco.MarkerSeverity.Error,
-          },
-        ];
-        monaco.editor.setModelMarkers(model, "owner", markers);
-        return e;
-      }
-      return;
-    }, 500),
-    [monaco]
-  );
-  useEffect(() => callback(script), []);
+    validate(script);
+  }, [script, monaco]);
+  const callback = useCallback(debounce(validate, 500), [monaco]);
   if (!isMonacoReady || !monaco) return <></>;
   const onChangeHandler = (value?: string) => {
     setValue(value ?? "");

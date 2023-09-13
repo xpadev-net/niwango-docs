@@ -36,12 +36,16 @@ const Meta = () => {
         </button>
       </div>
       <div className={`${Styles.container} ${tab === "ast" && Styles.active}`}>
-        <ReactJson
-          src={ast ?? {}}
-          theme={"monokai"}
-          collapsed={true}
-          displayDataTypes={false}
-        />
+        {ast ? (
+          <ReactJson
+            src={ast ?? {}}
+            theme={"monokai"}
+            collapsed={true}
+            displayDataTypes={false}
+          />
+        ) : (
+          <p className={Styles.message}>構文にエラーがあります</p>
+        )}
       </div>
       <div
         className={`${Styles.container} ${tab === "console" && Styles.active}`}
