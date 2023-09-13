@@ -32,7 +32,6 @@ const SeekBar = ({ className, onMouseUp, max, value }: props) => {
       setIsDrugging(false);
       if (progress === undefined) return;
       const val = (max * progress) / 100;
-      console.log(val);
       onMouseUp(val);
     };
     window.addEventListener("mousemove", onMouseMove);

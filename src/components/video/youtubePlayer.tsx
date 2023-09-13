@@ -45,7 +45,6 @@ export const YoutubePlayer = ({ url, className }: props) => {
           });
         },
         onStateChange: (e) => {
-          console.log(e);
           setCurrentTime({
             currentTime: Math.floor((player.getCurrentTime() ?? 0) * 1000),
             duration: Math.floor((player.getDuration() ?? 0) * 1000),
