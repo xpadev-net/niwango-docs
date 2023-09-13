@@ -1,11 +1,11 @@
 import { useCallback, KeyboardEvent, useState, useEffect } from "react";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import { niwangoLanguageId } from "@/components/language-support";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { IsMonacoReadyAtom } from "@/atoms/monaco";
 import { debounce } from "@/utils/debounce.ts";
 import NiwangoCore from "@xpadev-net/niwango-core";
-import { ScriptValueAtom } from "@/atoms/script.ts";
+import { ASTValueAtom, ScriptValueAtom } from "@/atoms/script.ts";
 import { removeTmAnnotation } from "@/utils/tm.ts";
 import Styles from "./editor.module.scss";
 
@@ -17,6 +17,7 @@ const NiwangoEditor = ({ className }: props) => {
   const monaco = useMonaco();
   const isMonacoReady = useAtomValue(IsMonacoReadyAtom);
   const [script, setScript] = useAtom(ScriptValueAtom);
+  const setAST = useSetAtom(ASTValueAtom);
   const [value, setValue] = useState(script);
   useEffect(() => {
     setValue(script);
@@ -27,8 +28,8 @@ const NiwangoEditor = ({ className }: props) => {
       const model = monaco.editor.getModels()[0];
       try {
         const value = removeTmAnnotation(value_);
-        console.log(value);
-        NiwangoCore.parse(value, { grammarSource: "sandbox" });
+        const ast = NiwangoCore.parse(value, { grammarSource: "sandbox" });
+        setAST(ast);
         monaco.editor.setModelMarkers(model, "owner", []);
       } catch (e) {
         if (!(e instanceof NiwangoCore.PeggySyntaxError)) {
@@ -51,6 +52,7 @@ const NiwangoEditor = ({ className }: props) => {
     }, 500),
     [monaco]
   );
+  useEffect(() => callback(script), []);
   if (!isMonacoReady || !monaco) return <></>;
   const onChangeHandler = (value?: string) => {
     setValue(value ?? "");
