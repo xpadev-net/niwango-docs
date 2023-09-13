@@ -31,10 +31,10 @@ jobs:
         run: |
           npm i -g pnpm
           pnpm install
-      - name: update path
-        run: mv dist docs
       - name: generate dev build
         run: pnpm build
+      - name: update path
+        run: mv dist docs
       - name: Create new Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
