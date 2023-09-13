@@ -13,6 +13,6 @@ export const VideoStateAtom = atom<{
 }>({ currentTime: 0, paused: true, timestamp: 0, duration: 1 });
 export const VideoUrlAtom = atomWithStorage(
   "video_url",
-  "https://www.nicovideo.jp/watch/sm13570088  "
+  "https://www.nicovideo.jp/watch/sm9"
 );
 export const IsYoutubeReadyAtom = atom(false);
