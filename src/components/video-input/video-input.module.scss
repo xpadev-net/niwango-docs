@@ -1,0 +1,18 @@
+.wrapper {
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+  .input {
+    background: none;
+    flex: 1;
+    border: none;
+    color: white;
+    padding: 4px;
+    border-radius: 2px;
+    &.invalid {
+      border: solid 1px red;
+    }
+  }
+}
