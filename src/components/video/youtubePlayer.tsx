@@ -5,6 +5,7 @@ import {
   VideoStateAtom,
 } from "@/atoms/video.ts";
 import { useAtomValue, useSetAtom } from "jotai";
+import Styles from "./video.module.scss";
 
 type props = {
   url: string;
@@ -23,10 +24,28 @@ export const YoutubePlayer = ({ url, className }: props) => {
   }>({ paused: true, currentTime: 0, timestamp: 0, duration: 1 });
   useEffect(() => {
     if (!wrapperRef.current) return;
-    const player = new YT.Player(wrapperRef.current.id, {
+    const tag = document.createElement("div");
+    tag.id = `__yt_player`;
+    tag.className = Styles.playerIframe;
+    wrapperRef.current.append(tag);
+    const player = new YT.Player("__yt_player", {
       videoId: url,
       events: {
+        onReady: (e) => {
+          setVideoControls({
+            play: () => {
+              e.target.playVideo();
+            },
+            pause: () => {
+              e.target.pauseVideo();
+            },
+            seek: (time: number) => {
+              e.target.seekTo(time / 1000, true);
+            },
+          });
+        },
         onStateChange: (e) => {
+          console.log(e);
           setCurrentTime({
             currentTime: Math.floor((player.getCurrentTime() ?? 0) * 1000),
             duration: Math.floor((player.getDuration() ?? 0) * 1000),
@@ -36,17 +55,9 @@ export const YoutubePlayer = ({ url, className }: props) => {
         },
       },
     });
-    setVideoControls({
-      play: () => {
-        player.playVideo();
-      },
-      pause: () => {
-        player.pauseVideo();
-      },
-      seek: (time: number) => {
-        player.seekTo(time / 1000, true);
-      },
-    });
+    return () => {
+      player.destroy();
+    };
   }, [url, isYoutubeReady]);
 
   useEffect(() => {
@@ -67,5 +78,5 @@ export const YoutubePlayer = ({ url, className }: props) => {
   }, [currentTime]);
   const setVideoControls = useSetAtom(VideoControlsAtom);
   if (!isYoutubeReady) return <></>;
-  return <div className={className} ref={wrapperRef} id={"__yt_player"} />;
+  return <div className={className} ref={wrapperRef} />;
 };

@@ -3,6 +3,7 @@ import Styles from "./resizable-column.module.scss";
 import { NiwangoEditor } from "@/components/editor";
 import { Render } from "@/components/render/render.tsx";
 import { Controls } from "@/components/controls/controls.tsx";
+import { VideoInput } from "@/components/video-input";
 
 type props = {
   className?: string;
@@ -44,6 +45,7 @@ const ResizableColumn = ({ className }: props) => {
         onMouseDown={() => setIsDrugging(true)}
       ></div>
       <aside className={Styles.aside} style={{ width: `${asideWidth}px` }}>
+        <VideoInput />
         <Render width={asideWidth} />
         <Controls />
         <section className={Styles.meta}></section>
