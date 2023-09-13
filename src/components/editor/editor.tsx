@@ -27,6 +27,7 @@ const NiwangoEditor = ({ className }: props) => {
       const model = monaco.editor.getModels()[0];
       try {
         const value = removeTmAnnotation(value_);
+        console.log(value);
         NiwangoCore.parse(value, { grammarSource: "sandbox" });
         monaco.editor.setModelMarkers(model, "owner", []);
       } catch (e) {

@@ -1,6 +1,6 @@
 const removeTmAnnotation = (value: string) => {
   return value
-    .split("\n")
+    .split(/\r\n|\n|\r/)
     .map((val) =>
       val.replace(
         /^\[tm([0-9]+(?:\.[0-9]+)?|[0-9]+:[0-5]?[0-9](?:\.[0-9]+)?)]$/,
@@ -11,7 +11,7 @@ const removeTmAnnotation = (value: string) => {
 };
 
 const convertToCommentFormat = (value: string) => {
-  const lines = value.split("\n");
+  const lines = value.split(/\r\n|\n|\r/);
   const result = [];
   let tmpArr = [];
   let lastVpos = 0;
