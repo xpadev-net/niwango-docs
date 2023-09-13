@@ -31,8 +31,8 @@ jobs:
         run: |
           npm i -g pnpm
           pnpm install
-      - name: update .gitignore
-        run: sed -i -e '/\/dist/d' .gitignore
+      - name: update path
+        run: mv dist docs
       - name: generate dev build
         run: pnpm build
       - name: Create new Branch
