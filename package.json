@@ -19,6 +19,7 @@
     "@monaco-editor/react": "^4.5.1",
     "@xpadev-net/niwango": "0.0.1-canary.20230906-4",
     "@xpadev-net/niwango-core": "0.0.2-canary.20230906-4",
+    "console-feed": "^3.5.0",
     "jotai": "^2.3.1",
     "monaco-editor": "^0.41.0",
     "react": "^18.2.0",

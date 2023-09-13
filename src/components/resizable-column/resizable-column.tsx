@@ -4,9 +4,7 @@ import { NiwangoEditor } from "@/components/editor";
 import { Render } from "@/components/render/render.tsx";
 import { Controls } from "@/components/controls/controls.tsx";
 import { VideoInput } from "@/components/video-input";
-import { useAtomValue } from "jotai";
-import ReactJson from "react-json-view";
-import { ASTValueAtom } from "@/atoms/script";
+import { Meta } from "@/components/meta";
 
 type props = {
   className?: string;
@@ -15,7 +13,6 @@ type props = {
 const ResizableColumn = ({ className }: props) => {
   const [asideWidth, setAsideWidth] = useState<number>(400);
   const [isDrugging, setIsDrugging] = useState<boolean>(false);
-  const ast = useAtomValue(ASTValueAtom);
   useEffect(() => {
     if (!isDrugging) return;
     const onMouseMoveHandler = (e: MouseEvent) => {
@@ -53,7 +50,7 @@ const ResizableColumn = ({ className }: props) => {
         <Render width={asideWidth} />
         <Controls />
         <section className={Styles.meta}>
-          <ReactJson src={ast ?? {}} theme={"monokai"} collapsed={true} />
+          <Meta />
         </section>
       </aside>
     </div>

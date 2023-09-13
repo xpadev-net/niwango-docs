@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  .control {
+    display: flex;
+    flex-direction: row;
+    .button {
+      flex: 1;
+      border: none;
+      background: none;
+      color: white;
+      padding: 8px 16px;
+      border-bottom: solid 1px transparent;
+      &.active {
+        border-bottom: solid 1px deepskyblue;
+      }
+    }
+  }
+  .container {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+}
